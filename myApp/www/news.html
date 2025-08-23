@@ -1,40 +1,280 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Disaster News & Updates</title>
+  <title>Disaster News & Updates - Rescue AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
   />
+  <link rel="stylesheet" href="news-api/styles.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body {
       font-family: 'Inter', sans-serif;
     }
   </style>
 </head>
 <body class="bg-gradient-to-b from-[#f9faf9] to-[#d1d5db] min-h-screen">
-  <header class="bg-gradient-to-r from-[#f4434b] via-[#9b2f4b] to-[#2f3a4b] py-8 text-center">
-    <h1 class="text-white font-extrabold text-3xl md:text-4xl">Disaster News &amp; Updates</h1>
-    <p class="text-white text-sm md:text-base mt-2 max-w-xl mx-auto px-4">
-      Stay informed with the latest news and updates on disasters and emergency situations.
-    </p>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-[#f4434b] via-[#9b2f4b] to-[#2f3a4b] py-6 text-center">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-white font-extrabold text-3xl md:text-4xl mb-3">Disaster News &amp; Updates</h1>
+      <p class="text-white text-sm md:text-base max-w-2xl mx-auto">
+        Real-time emergency news and disaster updates from ReliefWeb API. Stay informed and prepared.
+      </p>
+    </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-10 space-y-6">
-    <article class="bg-white rounded-xl p-6 shadow-md">
-      <h2 class="text-[#1e293b] font-semibold text-lg md:text-xl mb-2">Flood Warning Issued</h2>
-      <p class="text-[#475569] text-sm md:text-base mb-4">Flood warnings for western coastal regions.</p>
-      <time class="text-[#94a3b8] text-xs md:text-sm" datetime="2025-04-06T12:37:19">4/6/2025, 12:37:19 PM</time>
-    </article>
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Filter Controls -->
+    <div class="news-filters mb-8">
+      <div class="filter-group">
+        <label class="filter-label">Filter by:</label>
+        <select id="disasterTypeFilter" class="filter-select">
+          <option value="">All Disaster Types</option>
+          <option value="Flood">Flood</option>
+          <option value="Earthquake">Earthquake</option>
+          <option value="Cyclone">Cyclone</option>
+          <option value="Wildfire">Wildfire</option>
+          <option value="Drought">Drought</option>
+        </select>
+        <select id="countryFilter" class="filter-select">
+          <option value="">All Countries</option>
+          <option value="India">India</option>
+          <option value="United States">United States</option>
+          <option value="Japan">Japan</option>
+          <option value="Australia">Australia</option>
+          <option value="Philippines">Philippines</option>
+        </select>
+        <button id="refreshButton" class="filter-button">
+          <i class="fas fa-sync-alt mr-2"></i>Refresh News
+        </button>
+      </div>
+    </div>
 
-    <article class="bg-white rounded-xl p-6 shadow-md">
-      <h2 class="text-[#1e293b] font-semibold text-lg md:text-xl mb-2">Emergency Services in Chennai</h2>
-      <p class="text-[#475569] text-sm md:text-base mb-4">NDRF teams deployed.</p>
-      <time class="text-[#94a3b8] text-xs md:text-sm" datetime="2025-04-06T09:37:19">4/6/2025, 9:37:19 AM</time>
-    </article>
+    <!-- News Container -->
+    <div id="news-container" class="news-container">
+      <!-- News articles will be loaded here dynamically -->
+      <div class="news-loading">
+        <div class="news-loading-spinner"></div>
+        <span class="ml-3 text-gray-600">Loading latest disaster news...</span>
+      </div>
+    </div>
+
+    <!-- Error State (hidden by default) -->
+    <div id="news-error" class="news-error" style="display: none;">
+      <div class="news-error-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Unable to Load News</h3>
+      <p class="text-sm">Please check your internet connection and try again.</p>
+      <button onclick="loadNews()" class="filter-button mt-4">
+        <i class="fas fa-redo mr-2"></i>Retry
+      </button>
+    </div>
+
+    <!-- Empty State (hidden by default) -->
+    <div id="news-empty" class="news-empty" style="display: none;">
+      <div class="news-empty-icon">
+        <i class="fas fa-newspaper"></i>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">No News Available</h3>
+      <p class="text-sm">There are no current disaster reports available.</p>
+    </div>
   </main>
+
+  <!-- Footer Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
+    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-home"></i>
+      <span class="text-xs">Home</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center text-red-500">
+      <i class="fas fa-newspaper"></i>
+      <span class="text-xs">News</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-map-marker-alt"></i>
+      <span class="text-xs">Map</span>
+    </a>
+    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-bell"></i>
+      <span class="text-xs">Alerts</span>
+    </a>
+    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-phone-alt"></i>
+      <span class="text-xs">Contact</span>
+    </a>
+  </nav>
+
+  <!-- JavaScript Files -->
+  <script src="news-api/reliefWebAPI.js"></script>
+  <script src="news-api/newsData.js"></script>
+  
+  <script>
+    // Global variables
+    let currentNews = [];
+    let isLoading = false;
+
+    // Load news on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      loadNews();
+      setupEventListeners();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+      document.getElementById('refreshButton').addEventListener('click', loadNews);
+      document.getElementById('disasterTypeFilter').addEventListener('change', filterNews);
+      document.getElementById('countryFilter').addEventListener('change', filterNews);
+    }
+
+    async function loadNews() {
+      if (isLoading) return;
+      
+      isLoading = true;
+      showLoadingState();
+      hideErrorState();
+      hideEmptyState();
+
+      try {
+        // Try to fetch from ReliefWeb API first
+        const news = await window.ReliefWebAPI.getLatestEmergencyNews();
+        
+        if (news && news.length > 0) {
+          currentNews = news;
+          displayNews(currentNews);
+        } else {
+          // Fallback to mock data if API returns empty
+          const mockData = await window.NewsAPI.getNewsData();
+          currentNews = mockData.data.map(item => ({
+            id: Math.random().toString(36).substr(2, 9),
+            title: item.fields.title,
+            summary: item.fields.summary,
+            date: item.fields.date,
+            source: 'Rescue AI',
+            disasterType: 'Emergency',
+            country: 'Various'
+          }));
+          displayNews(currentNews);
+        }
+      } catch (error) {
+        console.error('Error loading news:', error);
+        // Fallback to mock data on API error
+        try {
+          const mockData = await window.NewsAPI.getNewsData();
+          currentNews = mockData.data.map(item => ({
+            id: Math.random().toString(36).substr(2, 9),
+            title: item.fields.title,
+            summary: item.fields.summary,
+            date: item.fields.date,
+            source: 'Rescue AI',
+            disasterType: 'Emergency',
+            country: 'Various'
+          }));
+          displayNews(currentNews);
+        } catch (mockError) {
+          console.error('Error loading mock data:', mockError);
+          showErrorState();
+        }
+      } finally {
+        isLoading = false;
+      }
+    }
+
+    // Filter news based on selections
+    function filterNews() {
+      const disasterType = document.getElementById('disasterTypeFilter').value;
+      const country = document.getElementById('countryFilter').value;
+
+      let filteredNews = currentNews;
+
+      if (disasterType) {
+        filteredNews = filteredNews.filter(news => 
+          news.disasterType.toLowerCase().includes(disasterType.toLowerCase())
+        );
+      }
+
+      if (country) {
+        filteredNews = filteredNews.filter(news => 
+          news.country.toLowerCase().includes(country.toLowerCase())
+        );
+      }
+
+      displayNews(filteredNews);
+    }
+
+    // Display news articles
+    function displayNews(newsArray) {
+      const container = document.getElementById('news-container');
+      
+      if (!newsArray || newsArray.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      container.innerHTML = newsArray.map(news => `
+        <article class="news-article">
+          <h2 class="news-title">${news.title}</h2>
+          <p class="news-summary">${news.summary}</p>
+          <div class="news-meta">
+            <div class="flex items-center gap-3">
+              <span class="news-source">${news.source}</span>
+              ${news.disasterType ? `<span class="news-disaster-type">${news.disasterType}</span>` : ''}
+              ${news.country ? `<span class="news-country">${news.country}</span>` : ''}
+            </div>
+            <span class="news-date">${formatDate(news.date)}</span>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // Utility functions for UI states
+    function showLoadingState() {
+      document.getElementById('news-container').innerHTML = `
+        <div class="news-loading">
+          <div class="news-loading-spinner"></div>
+          <span class="ml-3 text-gray-600">Loading latest disaster news...</span>
+        </div>
+      `;
+    }
+
+    function showErrorState() {
+      document.getElementById('news-container').style.display = 'none';
+      document.getElementById('news-error').style.display = 'block';
+    }
+
+    function hideErrorState() {
+      document.getElementById('news-error').style.display = 'none';
+    }
+
+    function showEmptyState() {
+      document.getElementById('news-container').innerHTML = '';
+      document.getElementById('news-empty').style.display = 'block';
+    }
+
+    function hideEmptyState() {
+      document.getElementById('news-empty').style.display = 'none';
+    }
+
+    // Date formatting utility
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Expose to global scope for retry button
+    window.loadNews = loadNews;
+  </script>
 </body>
 </html>
