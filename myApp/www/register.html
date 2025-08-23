@@ -1,41 +1,59 @@
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold text-gray-900 mb-4">Register</h1>
-    <form id="registerForm" class="space-y-4">
-      <input id="username" type="text" placeholder="Username" required class="w-full border p-2 rounded" />
-      <input id="email" type="email" placeholder="Email" required class="w-full border p-2 rounded" />
-      <input id="password" type="password" placeholder="Password" required class="w-full border p-2 rounded" />
-      <input id="confirmPassword" type="password" placeholder="Re-enter Password" required class="w-full border p-2 rounded" />
-      <select id="role" required class="w-full border p-2 rounded">
-        <option value="">Select Role</option>
-        <option value="victim">Victim</option>
-        <option value="volunteer">Volunteer</option>
-      </select>
-      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded">Register</button>
-    </form>
-    <p class="mt-4 text-sm">Already have an account? <a href="login.html" class="text-blue-600">Login</a></p>
-  </div>
-
-  <script>
-    document.getElementById("registerForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-      const role = document.getElementById("role").value;
-
-      if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
-      }
-
-      let users = JSON.parse(localStorage.getItem("users") || "[]");
-      users.push({ username, email, password, role });
-      localStorage.setItem("users", JSON.stringify(users));
-
-      alert("Registration successful!");
-      window.location.href = "login.html";
-    });
-  </script>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Login Here</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-black bg-opacity-90 flex items-center justify-center overflow-hidden">
+  <img alt="Bridge at sunset with orange and blue sky" class="absolute inset-0 w-full h-full object-cover" height="1080" src="https://storage.googleapis.com/a1aa/image/5b0ecacc-3abe-4d16-9124-71c8bc013bbc.jpg" width="1920"/>
+  <div class="absolute top-20 left-20 w-40 h-40 rounded-full bg-gradient-to-b from-blue-600 to-blue-400 opacity-90 filter blur-[60px]"></div>
+  <div class="absolute bottom-20 right-20 w-40 h-40 rounded-full bg-gradient-to-b from-orange-500 to-red-600 opacity-90 filter blur-[60px]"></div>
+  <form aria-label="Login form" class="relative z-10 bg-white bg-opacity-20 backdrop-blur-md rounded-xl p-8 w-80 sm:w-96 text-white shadow-lg" method="POST" action="/login">
+    <h2 class="text-xl font-semibold mb-6 text-white">Login Here</h2>
+    
+    <label class="block font-semibold text-sm mb-1" for="username">Username</label>
+    <input class="w-full mb-5 rounded-md bg-white bg-opacity-20 placeholder-white placeholder-opacity-50 text-white py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400" id="username" placeholder="Email or Phone" type="text" required autocomplete="username" aria-describedby="usernameHelp"/>
+    <small id="usernameHelp" class="text-xs text-white">Enter your email or phone number.</small>
+    
+    <label class="block font-semibold text-sm mb-1" for="password">Password</label>
+    <input class="w-full mb-6 rounded-md bg-white bg-opacity-20 placeholder-white placeholder-opacity-50 text-white py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400" id="password" placeholder="Password" type="password" required autocomplete="current-password" aria-describedby="passwordHelp"/>
+    <small id="passwordHelp" class="text-xs text-white">Your password must be at least 8 characters long.</small>
+    
+    <fieldset class="mb-6">
+      <legend class="block font-semibold text-sm mb-1 text-white">Select Your Role</legend>
+      <div class="flex items-center mb-2">
+        <input type="radio" id="victim" name="role" value="victim" class="mr-2" required>
+        <label for="victim" class="text-white">Victim</label>
+      </div>
+      <div class="flex items-center">
+        <input type="radio" id="volunteer" name="role" value="volunteer" class="mr-2" required>
+        <label for="volunteer" class="text-white">Volunteer</label>
+      </div>
+    </fieldset>
+    
+    <button class="w-full bg-white text-black font-bold py-2 rounded-md mb-6 hover:bg-gray-200 transition" type="submit">Log In</button>
+    
+    <div class="flex gap-3 mb-6">
+      <button class="flex items-center justify-center gap-2 bg-white bg-opacity-30 rounded-md py-2 px-4 text-white text-sm hover:bg-opacity-50 transition" type="button">
+        <i class="fab fa-google"></i> Google
+      </button>
+      <button class="flex items-center justify-center gap-2 bg-white bg-opacity-30 rounded-md py-2 px-4 text-white text-sm hover:bg-opacity-50 transition" type="button">
+        <i class="fab fa-facebook-f"></i> Facebook
+      </button>
+    </div>
+    
+    <p class="text-xs text-white text-center">
+      Don’t have an account?
+      <a class="text-red-400 hover:underline" href="#">Create Account</a>
+    </p>
+  </form>
 </body>
+</html>
