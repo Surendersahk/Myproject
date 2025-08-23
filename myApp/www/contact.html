@@ -1,0 +1,68 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-gray-100">
+  <header class="bg-gradient-to-r from-red-500 via-red-600 to-gray-700 py-10 text-center">
+    <h1 class="text-white font-extrabold text-3xl">Contact Us</h1>
+    <p class="text-white mt-3 max-w-xl mx-auto text-sm sm:text-base">
+      Reach out to our team for support or information about emergency services.
+    </p>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-8">
+    <section class="bg-red-500 rounded-lg flex-1 max-w-md mx-auto md:mx-0">
+      <h2 class="text-white font-extrabold text-xl text-center py-6">Emergency Contacts</h2>
+      <div class="space-y-6 px-6 pb-6">
+        <div class="bg-red-400 rounded-lg py-8 text-center text-white font-semibold">
+          <p class="text-sm font-bold">National Emergency Helpline</p>
+          <p class="text-3xl font-extrabold mt-2">112</p>
+        </div>
+        <div class="bg-red-400 rounded-lg py-8 text-center text-white font-semibold">
+          <p class="text-sm font-bold">Police</p>
+          <p class="text-3xl font-extrabold mt-2">100</p>
+        </div>
+        <div class="bg-red-400 rounded-lg py-8 text-center text-white font-semibold">
+          <p class="text-sm font-bold">Fire</p>
+          <p class="text-3xl font-extrabold mt-2">101</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-lg flex-1 max-w-md mx-auto md:mx-0 p-6">
+      <h2 class="text-gray-800 font-extrabold text-xl mb-6">Send Us a Message</h2>
+      <form class="space-y-4">
+        <input
+          type="text"
+          placeholder="Your Name"
+          class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+        />
+        <input
+          type="email"
+          placeholder="Your Email"
+          class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+        />
+        <textarea
+          rows="5"
+          placeholder="Your Message"
+          class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-red-400"
+        ></textarea>
+        <button
+          type="submit"
+          class="w-full bg-red-500 text-white font-semibold py-3 rounded-md hover:bg-red-600 transition"
+        >
+          Send Message
+        </button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
