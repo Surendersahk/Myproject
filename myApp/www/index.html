@@ -1,0 +1,170 @@
+<!--<!DOCTYPE html>-->
+<!--&lt;!&ndash;-->
+<!--    Licensed to the Apache Software Foundation (ASF) under one-->
+<!--    or more contributor license agreements.  See the NOTICE file-->
+<!--    distributed with this work for additional information-->
+<!--    regarding copyright ownership.  The ASF licenses this file-->
+<!--    to you under the Apache License, Version 2.0 (the-->
+<!--    "License"); you may not use this file except in compliance-->
+<!--    with the License.  You may obtain a copy of the License at-->
+
+<!--    http://www.apache.org/licenses/LICENSE-2.0-->
+
+<!--    Unless required by applicable law or agreed to in writing,-->
+<!--    software distributed under the License is distributed on an-->
+<!--    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY-->
+<!--     KIND, either express or implied.  See the License for the-->
+<!--    specific language governing permissions and limitations-->
+<!--    under the License.-->
+<!--&ndash;&gt;-->
+<!--<html>-->
+<!--    <head>-->
+<!--        <meta charset="utf-8">-->
+<!--        &lt;!&ndash;-->
+<!--        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:-->
+<!--            https://cordova.apache.org/docs/en/latest/-->
+<!--        Some notes:-->
+<!--            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly-->
+<!--            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:-->
+<!--                * Enable inline JS: add 'unsafe-inline' to default-src-->
+<!--        &ndash;&gt;-->
+<!--        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
+<!--        <meta name="format-detection" content="telephone=no">-->
+<!--        <meta name="msapplication-tap-highlight" content="no">-->
+<!--        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">-->
+<!--        <meta name="color-scheme" content="light dark">-->
+<!--        <link rel="stylesheet" href="css/index.css">-->
+<!--        <title>Hello World</title>-->
+<!--    </head>-->
+<!--    <body>-->
+<!--        <div class="app">-->
+<!--            <h1>Apache Cordova</h1>-->
+<!--            <div id="deviceready" class="blink">-->
+<!--                <p class="event listening">Connecting to Device</p>-->
+<!--                <p class="event received">Device is Ready</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <script src="cordova.js"></script>-->
+<!--        <script src="js/index.js"></script>-->
+<!--    <h1>"hello world</h1>-->
+<!--    </body>-->
+<!--</html>-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>
+        Help Net - Emergency Alert System
+    </title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+           font-family: 'Inter', sans-serif;
+         }
+    </style>
+</head>
+<body class="bg-[#f4f7fa] min-h-screen">
+<!-- Header -->
+<header class="flex items-center justify-between px-6 py-4 bg-white shadow-sm">
+    <div class="flex items-center space-x-2 bg-white rounded-md shadow-md px-3 py-2">
+    <span class="font-extrabold text-xl text-[#1f2937]">
+     Help Net
+    </span>
+        <span class="font-extrabold text-xl text-[#f43f5e]">
+     .AI
+    </span>
+    </div>
+    <nav class="hidden md:flex space-x-8 font-semibold text-[#374151] text-base">
+        <a href="homepage.html">
+            Home
+        </a>
+        <a href="news.html">
+            News
+        </a>
+        <a class="text-[#f43f5e] border-b-2 border-[#f43f5e] pb-1" href="#">
+            Alerts
+        </a>
+        <a href="contact.html"> contact
+        </a>
+    </nav>
+    <div class="flex items-center space-x-4">
+        <button class="text-[#374151] bg-[#e5e7eb] px-4 py-2 rounded-full text-sm font-medium hover:bg-[#d1d5db]">
+            Sign in
+        </button>
+        <button class="bg-[#f43f5e] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#e11d48]">
+            Register
+        </button>
+    </div>
+</header>
+<!-- Hero Section -->
+<section class="w-full py-12 px-6 text-center text-white font-semibold" style="background: linear-gradient(90deg, #f43f5e 0%, #1e293b 100%)">
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-3">
+        Emergency Alert System
+    </h1>
+    <p class="max-w-xl mx-auto text-base md:text-lg font-normal">
+        Report and monitor emergencies in real-time. All alerts are shared with emergency response teams.
+    </p>
+</section>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Create Emergency Alert Form -->
+    <section aria-label="Create Emergency Alert Form" class="bg-white rounded-xl shadow-md p-6 md:p-8 max-w-md mx-auto md:mx-0">
+        <h2 class="text-[#1e293b] font-semibold text-lg mb-6">
+            Create Emergency Alert
+        </h2>
+        <form class="space-y-6">
+            <div>
+                <label class="block text-sm font-semibold text-[#1e293b] mb-1" for="location">
+                    Location
+                </label>
+                <input class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f43f5e]" id="location" name="location" placeholder="Enter affected location" type="text"/>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-[#1e293b] mb-1" for="severity">
+                    Severity Level
+                </label>
+                <select class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#f43f5e]" id="severity" name="severity">
+                    <option>
+                        Low
+                    </option>
+                    <option>
+                        Medium
+                    </option>
+                    <option>
+                        High
+                    </option>
+                    <option>
+                        Critical
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-[#1e293b] mb-1" for="details">
+                    Emergency Details
+                </label>
+                <textarea class="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f43f5e]" id="details" name="details" placeholder="Describe the emergency situation in detail" rows="4"></textarea>
+            </div>
+            <button class="bg-[#f43f5e] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#e11d48]" type="submit">
+                Submit Alert
+            </button>
+        </form>
+    </section>
+    <!-- Emergency Alerts Map -->
+    <section aria-label="Emergency Alerts Map" class="bg-white rounded-xl shadow-md p-6 md:p-8 max-w-md mx-auto md:mx-0">
+        <h2 class="text-[#1e293b] font-semibold text-lg mb-6">
+            Emergency Alerts Map
+        </h2>
+        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+            <img alt="Map showing emergency alert location pin near Mumbai, India" class="w-full h-auto" height="300" loading="lazy" src="https://storage.googleapis.com/a1aa/image/282deb91-601e-4cd4-792e-5d0d22e3f5ed.jpg" width="400"/>
+        </div>
+    </section>
+</main>
+<!-- Track My Location Button -->
+<button aria-label="Track My Location" class="fixed bottom-6 right-6 bg-[#f43f5e] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-[#e11d48] z-50">
+    Track My Location
+</button>
+</body>
+</html>
