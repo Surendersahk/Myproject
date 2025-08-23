@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Rescue AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <header class="bg-white shadow p-4 flex items-center">
+    <a href="index.html" class="text-red-500 mr-2"><i class="fas fa-arrow-left"></i></a>
+    <h1 class="text-lg font-semibold">Register</h1>
+  </header>
+
+  <main class="flex-grow p-4">
+    <form id="registerForm" class="bg-white shadow rounded-lg p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-medium">Name</label>
+        <input type="text" id="name" class="w-full border rounded p-2" required />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Role</label>
+        <select id="role" class="w-full border rounded p-2" required>
+          <option value="">Select Role</option>
+          <option value="victim">Victim</option>
+          <option value="volunteer">Volunteer</option>
+        </select>
+      </div>
+
+      <!-- Victim Fields -->
+      <div id="victimFields" class="hidden space-y-4">
+        <div>
+          <label class="block text-sm font-medium">Type of Help</label>
+          <select id="helpType" class="w-full border rounded p-2">
+            <option>Rescue</option>
+            <option>Food</option>
+            <option>Medical</option>
+            <option>Shelter</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Details</label>
+          <textarea id="details" rows="3" class="w-full border rounded p-2"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full bg-red-500 text-white rounded-lg py-2 hover:bg-red-600">
+        Register
+      </button>
+    </form>
+  </main>
+
+  <script>
+    const roleSelect = document.getElementById("role");
+    const victimFields = document.getElementById("victimFields");
+
+    roleSelect.addEventListener("change", () => {
+      if (roleSelect.value === "victim") {
+        victimFields.classList.remove("hidden");
+      } else {
+        victimFields.classList.add("hidden");
+      }
+    });
+
+    document.getElementById("registerForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const role = roleSelect.value;
+
+      if (role === "victim") {
+        const helpType = document.getElementById("helpType").value;
+        const details = document.getElementById("details").value;
+
+        let requests = JSON.parse(localStorage.getItem("requests") || "[]");
+        requests.push({ name, helpType, details, time: new Date().toLocaleString() });
+        localStorage.setItem("requests", JSON.stringify(requests));
+
+        alert("Your request has been submitted.");
+        window.location.href = "index.html";
+      } else if (role === "volunteer") {
+        localStorage.setItem("volunteer", JSON.stringify({ name }));
+        window.location.href = "volunteer.html";
+      }
+    });
+  </script>
+</body>
+</html>
