@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Rescue AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-red-500 to-orange-400 flex items-center justify-center min-h-screen">
+  <div class="bg-white bg-opacity-20 p-8 rounded-xl shadow-lg w-96">
+    <h2 class="text-2xl font-bold text-center text-white mb-6">Login</h2>
+
+    <!-- ✅ Login Form -->
+    <form id="loginForm" class="space-y-4">
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block font-semibold text-sm mb-1 text-white">Email</label>
+        <input id="email" type="email" placeholder="Enter your email"
+          class="w-full rounded-md bg-white bg-opacity-20 text-white py-2 px-3" required>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block font-semibold text-sm mb-1 text-white">Password</label>
+        <input id="password" type="password" placeholder="Enter your password"
+          class="w-full rounded-md bg-white bg-opacity-20 text-white py-2 px-3" required>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full bg-red-500 text-white font-bold py-2 rounded-md hover:bg-red-600 transition">
+        Login
+      </button>
+    </form>
+
+    <p class="text-center text-white text-sm mt-4">
+      Don’t have an account? <a href="register.html" class="font-bold underline">Register</a>
+    </p>
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="login.js"></script>
+</body>
+</html>
