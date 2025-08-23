@@ -15,17 +15,57 @@
   <style> body { font-family: "Inter", sans-serif; } </style>
 </head>
 <body class="bg-[#f7f8fa] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="flex justify-between items-center h-16"
+        role="navigation"
+        aria-label="Primary Navigation"
+      >
+        <!-- Logo -->
+        <a href="#" class="flex items-center space-x-1">
+          <span
+            class="text-gray-900 font-extrabold text-xl select-none"
+            style="font-family: Inter, sans-serif"
+            >RESCUE</span
+          >
+          <span
+            class="text-red-500 font-extrabold text-xl select-none"
+            style="font-family: Inter, sans-serif"
+            >.AI</span
+          >
+        </a>
 
-  <!-- HEADER -->
-  <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-30">
-    <div class="flex justify-between items-center h-14 px-4">
-      <!-- Logo -->
-      <span class="font-extrabold text-xl text-gray-900">RESCUE<span class="text-red-500">.AI</span></span>
-      
-      <!-- Auth Buttons (smaller for phone) -->
-      <div class="flex space-x-2">
-        <button class="bg-gray-100 text-gray-700 text-xs rounded-full px-3 py-1 hover:bg-gray-200">Sign In</button>
-        <button class="bg-red-500 text-white text-xs rounded-full px-3 py-1 hover:bg-red-600">Register</button>
+        <!-- Nav Links -->
+        <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
+          <a
+            href="#"
+            class="text-red-500 border-b-2 border-red-500 pb-1"
+            aria-current="page"
+            >Home</a
+          >
+          <a href="#" class="hover:text-gray-900">News</a>
+          <a href="#" class="hover:text-gray-900">Map</a>
+          <a href="#" class="hover:text-gray-900">Alerts</a>
+          <a href="#" class="hover:text-gray-900">Contact</a>
+        </nav>
+
+        <!-- Auth Buttons -->
+        <div class="flex items-center space-x-3">
+          <button
+            type="button"
+            class="hidden sm:inline-block bg-gray-100 text-gray-700 text-sm font-medium rounded-full px-4 py-1.5 hover:bg-gray-200 transition"
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            class="bg-red-500 text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-red-600 transition"
+          >
+            Register
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -79,7 +119,7 @@
       <i class="fas fa-bell"></i>
       <span class="text-xs">Alerts</span>
     </a>
-    <a href="#" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+    <a href="contact.html">
       <i class="fas fa-phone-alt"></i>
       <span class="text-xs">Contact</span>
     </a>
