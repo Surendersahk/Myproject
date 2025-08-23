@@ -1,7 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const firebaseConfig = { /* same config */ };
+const firebaseConfig = { 
+  apiKey: "AIzaSyBXlxzt77Aj4zR-4gAq3K2lf9sGiaEP5t8",
+  authDomain: "helpnet-ed918.firebaseapp.com",
+  projectId: "helpnet-ed918",
+  storageBucket: "helpnet-ed918.firebasestorage.app",
+  messagingSenderId: "720997916359",
+  appId: "1:720997916359:web:4fe91c39292df781ff68e2" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
