@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rescue Map</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBKf_IIUhddc4nkNZd36FmttU0FGMMj1g"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #map { height: 500px; width: 100%; margin-top: 20px; }
+    .form-container { margin-bottom: 20px; max-width: 400px; }
+    label { display: block; margin: 5px 0; }
+    input, select, button { padding: 8px; margin: 5px 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Disaster Rescue Map</h1>
+
+  <!-- Victim Form -->
+  <div class="form-container">
+    <h2>📍 Share My Location</h2>
+    <form id="rescueForm">
+      <label>Name:</label>
+      <input type="text" id="name" required>
+      
+      <label>Phone:</label>
+      <input type="text" id="phone" required>
+      
+      <label>Disaster Type:</label>
+      <select id="disasterType">
+        <option value="Flood">Flood</option>
+        <option value="Earthquake">Earthquake</option>
+        <option value="Fire">Fire</option>
+        <option value="Other">Other</option>
+      </select>
+      
+      <button type="submit">Send Help Request</button>
+    </form>
+  </div>
+
+  <!-- Map for Volunteers -->
+  <h2>🌍 Rescue Requests Map</h2>
+  <div id="map"></div>
+
+  <script>
+    // ✅ CHANGE THIS: Your backend API URL
+    const API_BASE = "http://localhost:5000/api";
+
+    let map;
+
+    // Initialize Map
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 5,
+        center: { lat: 20.5937, lng: 78.9629 } // India center
+      });
+
+      loadRequests(); // Load markers when map starts
+    }
+
+    // Load rescue requests and plot markers
+    async function loadRequests() {
+      try {
+        const res = await axios.get(`${API_BASE}/rescue`);
+        res.data.forEach(req => {
+          new google.maps.Marker({
+            position: { lat: req.latitude, lng: req.longitude },
+            map: map,
+            title: `${req.disasterType} - ${req.name} (${req.phone})`
+          });
+        });
+      } catch (err) {
+        console.error("Error loading requests:", err);
+      }
+    }
+
+    // Victim form submit
+    document.getElementById("rescueForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          const data = {
+            name: document.getElementById("name").value,
+            phone: document.getElementById("phone").value,
+            disasterType: document.getElementById("disasterType").value,
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude
+          };
+
+          try {
+            await axios.post(`${API_BASE}/rescue`, data);
+            alert("📍 Rescue request sent!");
+            loadRequests(); // Refresh map
+          } catch (err) {
+            console.error("Error sending request:", err);
+          }
+        });
+      } else {
+        alert("Geolocation not supported.");
+      }
+    });
+
+    // Load map when page is ready
+    window.onload = initMap;
+  </script>
+</body>
+</html>
