@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coordinator Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBKf_IIUhddc4nkNZd36FmttU0FGMMj1g"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #map { height: 400px; width: 100%; margin-top: 20px; }
+  </style>
+</head>
+<body class="p-6 bg-gray-100">
+  <h1 class="text-2xl font-bold mb-4">🚨 Coordinator Dashboard</h1>
+
+  <!-- Table of Requests -->
+  <div class="bg-white shadow p-4 rounded-lg">
+    <h2 class="text-xl mb-3 font-semibold">Rescue Requests</h2>
+    <table class="table-auto w-full border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border px-4 py-2">Name</th>
+          <th class="border px-4 py-2">Phone</th>
+          <th class="border px-4 py-2">Disaster</th>
+          <th class="border px-4 py-2">Location</th>
+          <th class="border px-4 py-2">Status</th>
+        </tr>
+      </thead>
+      <tbody id="requestsTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Map -->
+  <div class="mt-6">
+    <h2 class="text-xl mb-3 font-semibold">📍 Map View</h2>
+    <div id="map"></div>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:5000/api";
+    let map;
+
+    // Initialize Map
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 5,
+        center: { lat: 20.5937, lng: 78.9629 } // India center
+      });
+      loadRequests();
+    }
+
+    // Load rescue requests
+    async function loadRequests() {
+      try {
+        const res = await axios.get(`${API_BASE}/rescue`);
+        const table = document.getElementById("requestsTable");
+        table.innerHTML = ""; // clear old data
+
+        res.data.forEach(req => {
+          // Table row
+          const row = `<tr>
+              <td class="border px-4 py-2">${req.name}</td>
+              <td class="border px-4 py-2">${req.phone}</td>
+              <td class="border px-4 py-2">${req.disasterType}</td>
+              <td class="border px-4 py-2">${req.latitude.toFixed(2)}, ${req.longitude.toFixed(2)}</td>
+              <td class="border px-4 py-2">${req.status}</td>
+            </tr>`;
+          table.innerHTML += row;
+
+          // Map marker
+          new google.maps.Marker({
+            position: { lat: req.latitude, lng: req.longitude },
+            map: map,
+            title: `${req.disasterType} - ${req.name} (${req.phone})`
+          });
+        });
+      } catch (err) {
+        console.error("Error loading requests:", err);
+      }
+    }
+
+    window.onload = initMap;
+  </script>
+</body>
+</html>
+
