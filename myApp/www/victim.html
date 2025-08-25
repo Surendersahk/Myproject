@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victim Dashboard - Rescue AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+    <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold mb-4">Submit Help Request</h2>
+        <form id="requestForm" class="space-y-4">
+            <div>
+                <label class="block mb-1 font-semibold">Request Title</label>
+                <input type="text" id="title" class="w-full border p-2 rounded" placeholder="Enter request title"
+                    required>
+            </div>
+            <div>
+                <label class="block mb-1 font-semibold">Description</label>
+                <textarea id="description" class="w-full border p-2 rounded" placeholder="Enter details"
+                    required></textarea>
+            </div>
+            <div>
+                <label class="block mb-1 font-semibold">Location (latitude, longitude)</label>
+                <input type="text" id="location" class="w-full border p-2 rounded" placeholder="Ex: 12.9716,77.5946"
+                    required>
+            </div>
+            <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Submit
+                Request</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6ehp-gPeTAkET4b5SmjOX24l50KIDGwE",
+            authDomain: "helpnet-f5848.firebaseapp.com",
+            projectId: "helpnet-f5848",
+            storageBucket: "helpnet-f5848.firebasestorage.app",
+            messagingSenderId: "340231424827",
+            appId: "1:340231424827:web:83c9e84ee23e950cbe851e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html"; // redirect if not logged in
+            }
+        });
+
+        const form = document.getElementById("requestForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("title").value.trim();
+            const description = document.getElementById("description").value.trim();
+            const location = document.getElementById("location").value.trim();
+
+            if (!title || !description || !location) return alert("All fields required");
+
+            try {
+                await addDoc(collection(db, "victim_requests"), {
+                    title,
+                    description,
+                    location,
+                    userId: auth.currentUser.uid,
+                    createdAt: new Date()
+                });
+                alert("Request submitted successfully!");
+                form.reset();
+            } catch (err) {
+                console.error(err);
+                alert("Error submitting request");
+            }
+        });
+    </script>
+</body>
+
+</html>

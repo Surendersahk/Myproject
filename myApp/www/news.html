@@ -229,6 +229,7 @@
     }
 
     @keyframes pulse {
+
       0%,
       100% {
         opacity: 1;
@@ -354,29 +355,38 @@
       static hideEmpty() { document.getElementById('news-empty').style.display = 'none'; }
       static displayNews(newsArray) {
         const container = document.getElementById('news-container');
-        if (!newsArray || newsArray.length === 0) { this.showEmpty(); return; }
+        if (!newsArray || newsArray.length === 0) {
+          this.showEmpty();
+          return;
+        }
         this.hideEmpty();
-        container.style.display = 'block';
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+        container.style.gap = '20px';
+
         container.innerHTML = newsArray.map(news => `
-          <article class="news-article" onclick="window.open('${news.url}', '_blank')">
-            <h2 class="news-title">${news.title}</h2>
-            <p class="news-summary">${news.summary}</p>
-            <div class="news-meta">
-              <div class="news-tags">
-                <span class="news-source">${news.source}</span>
-                <span class="news-disaster-type">${news.disasterType}</span>
-                <span class="news-country">${news.country}</span>
-                <span class="news-region">${news.region}</span>
-              </div>
-              <span class="news-date">${UIManager.formatDate(news.date)}</span>
-            </div>
-          </article>
-        `).join('');
+      <article class="news-article flex gap-3 bg-white rounded-xl shadow-md p-3 cursor-pointer hover:shadow-lg transition" onclick="window.open('${news.url}', '_blank')">
+        ${news.imageUrl ? `<img src="${news.imageUrl}" alt="${news.title}" class="w-24 h-24 object-cover rounded-md flex-shrink-0">` : `<div class="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0"></div>`}
+        <div class="flex-1">
+          <h2 class="news-title text-md font-bold mb-1">${news.title}</h2>
+          <p class="news-summary text-gray-700 text-sm line-clamp-3">${news.summary || 'No description available.'}</p>
+          <div class="news-meta flex flex-wrap gap-1 mt-2">
+            <span class="news-source bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs">${news.source}</span>
+            <span class="news-disaster-type bg-red-100 text-red-800 px-2 py-0.5 rounded text-xs">${news.disasterType}</span>
+            <span class="news-country bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs">${news.country}</span>
+            <span class="news-region bg-teal-100 text-teal-800 px-2 py-0.5 rounded text-xs">${news.region}</span>
+          </div>
+          <span class="news-date text-gray-500 text-xs mt-1 block">${UIManager.formatDate(news.date)}</span>
+        </div>
+      </article>
+    `).join('');
       }
+
+
       static updateRefreshButton(isLoading) {
         const button = document.getElementById('refreshButton');
         const icon = button.querySelector('i');
-        if (isLoading) { button.disabled = true; icon.className = 'fas fa-spinner fa-spin mr-2'; } 
+        if (isLoading) { button.disabled = true; icon.className = 'fas fa-spinner fa-spin mr-2'; }
         else { button.disabled = false; icon.className = 'fas fa-sync-alt mr-2'; }
       }
       static updateAutoRefreshButton(isActive) {
@@ -394,9 +404,9 @@
         const date = new Date(dateString);
         const now = new Date();
         const diff = Math.floor((now - date) / 60000);
-        if (diff < 60) return `${diff} minutes ago`; 
-        const hours = Math.floor(diff / 60); 
-        if (hours < 24) return `${hours} hours ago`; 
+        if (diff < 60) return `${diff} minutes ago`;
+        const hours = Math.floor(diff / 60);
+        if (hours < 24) return `${hours} hours ago`;
         return date.toLocaleString();
       }
     }
@@ -509,6 +519,28 @@
 
     document.addEventListener('DOMContentLoaded', loadNews);
   </script>
+  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
+    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-home"></i>
+      <span class="text-xs">Home</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-newspaper"></i>
+      <span class="text-xs">News</span>
+    </a>
+    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-map-marker-alt"></i>
+      <span class="text-xs">Map</span>
+    </a>
+    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-bell"></i>
+      <span class="text-xs">Alerts</span>
+    </a>
+    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-phone-alt"></i>
+      <span class="text-xs">Contact</span>
+    </a>
+  </nav>
 </body>
 
 </html>
