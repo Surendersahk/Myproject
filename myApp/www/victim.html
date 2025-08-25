@@ -98,7 +98,164 @@
     <div class="bg-white shadow-md rounded-2xl p-6">
       <h3 class="text-lg font-semibold mb-4 text-green-600">📢 My Requests Status</h3>
       <ul class="space-y-3 text-gray-700">
-        <li class="flex justify-between items-center">
+        <li class="flex justify-between items-center"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HELP_NET - Victim Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at center, #141a1f 0%, #1f2937 70%);
+      color: #f0f0f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Grid background + scanning line */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(238, 6, 6, 0.5);
+      animation: scan 4s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+    .card {
+      background: rgba(31,41,55,0.85);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary {
+      background-color: #ef4444;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover { background-color: #dc2626; }
+
+    .btn-secondary {
+      background-color: rgba(255,255,255,0.2);
+      transition: 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    .status-pending { background-color: #facc15; color: #1f2937; }
+    .status-resolved { background-color: #22c55e; color: #f0f0f0; }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 card mb-6">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a href="homepage.html" class="flex items-center space-x-1">
+        <span class="text-white font-extrabold text-3xl select-none">HELP</span>
+        <span class="text-red-500 font-extrabold text-3xl select-none">NET</span>
+      </a>
+
+      <!-- User Profile -->
+      <div class="flex items-center space-x-3">
+        <span id="usernameDisplay" class="text-white font-semibold">Loading...</span>
+        <button onclick="logout()" class="btn-primary text-white text-xs font-medium rounded-full px-4 py-1 shadow-md">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto p-6 flex flex-col gap-6">
+    <h2 class="text-2xl font-bold text-center text-red-500">🆘 Victim Dashboard</h2>
+
+    <!-- Request Help Form -->
+    <div class="card">
+      <h3 class="text-lg font-semibold mb-4 text-red-500">Request Emergency Help</h3>
+      <form class="flex flex-col gap-4">
+        <button type="submit" class="btn-primary text-white px-6 py-2 rounded-lg shadow">
+          <a href="app.html">Send Request 🚨</a>
+        </button>
+      </form>
+    </div>
+
+    <!-- Status Updates -->
+    <div class="card">
+      <h3 class="text-lg font-semibold mb-4 text-green-500">📢 My Requests Status</h3>
+      <ul class="space-y-3">
+        <li class="flex justify-between items-center px-4 py-2 rounded-lg bg-[#1f2937]">
+          <span>Flood Rescue Request #123</span>
+          <span class="px-3 py-1 text-xs rounded-full status-pending">Pending</span>
+        </li>
+        <li class="flex justify-between items-center px-4 py-2 rounded-lg bg-[#1f2937]">
+          <span>Medical Assistance #122</span>
+          <span class="px-3 py-1 text-xs rounded-full status-resolved">Resolved</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#1f2937]/90 shadow-inner flex justify-around items-center h-14 text-white">
+    <a href="victim.html" class="flex flex-col items-center text-red-500">
+      <i class="fas fa-home"></i>
+      <span class="text-xs">Dashboard</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center hover:text-red-500">
+      <i class="fas fa-newspaper"></i>
+      <span class="text-xs">News</span>
+    </a>
+    <a href="app.html" class="flex flex-col items-center hover:text-red-500">
+      <i class="fas fa-map-marker-alt"></i>
+      <span class="text-xs">Request</span>
+    </a>
+    <a href="contact.html" class="flex flex-col items-center hover:text-red-500">
+      <i class="fas fa-phone-alt"></i>
+      <span class="text-xs">Contact</span>
+    </a>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = localStorage.getItem("username") || "Victim User";
+      document.getElementById("usernameDisplay").innerText = username;
+    });
+
+    function logout() {
+      localStorage.removeItem("username");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
+
           <span>Flood Rescue Request #123</span>
           <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Pending</span>
         </li>
