@@ -1,69 +1,124 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HelpNet</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
-  .active {
-    color: #ef4444; /* Tailwind red-500 */
-  }
-</style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at center, #141a1f 0%, #1f2937 70%);
+      color: #f0f0f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
+    /* Satellite grid background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -2;
+    }
+
+    /* Scanning line */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: rgba(238, 6, 6, 0.5);
+      animation: scan 4s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+    /* Floating disaster icons */
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0.05; }
+    }
+    .p1, .p2, .p3, .p4, .p5 {
+      position: fixed; font-size: 28px; opacity: 0.1; z-index: -1; animation: float 15s infinite linear;
+    }
+    .p1 { left: 10%; animation-duration: 20s; }
+    .p2 { left: 30%; animation-duration: 18s; }
+    .p3 { left: 50%; animation-duration: 22s; }
+    .p4 { left: 70%; animation-duration: 25s; }
+    .p5 { left: 85%; animation-duration: 17s; }
+
+    /* Cards */
+    .card {
+      background: rgba(31,41,55,0.85);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    a { text-decoration: none; }
+    .btn-primary { background-color: #ef4444; transition: 0.3s; cursor: pointer; }
+    .btn-primary:hover { background-color: #dc2626; }
+    .btn-secondary { background-color: rgba(255,255,255,0.2); transition: 0.3s; cursor: pointer; }
+    .btn-secondary:hover { background-color: rgba(255,255,255,0.3); }
+  </style>
 </head>
-<body class="bg-gray-200">
-  <header class="w-full">
-    <div class="w-full h-56 flex flex-col justify-center items-center text-white font-semibold text-2xl md:text-3xl font-sans" style="background: linear-gradient(90deg, #f4435a 0%, #2a344a 100%)">
-      <h1 class="mb-6 text-center font-bold">HelpNet - Intelligent Disaster Response</h1>
-      <div class="flex gap-4">
-        <button class="bg-white bg-opacity-20 rounded-full px-6 py-2 text-white font-normal hover:bg-opacity-30 transition">
-         <a href="news.html"> Live Updates </a>
-        </button>
-        <button class="bg-[#e04a39] rounded-full px-6 py-2 text-white font-normal hover:bg-[#c43b2a] transition">
-         <a href="alert.html"> Emergency Alerts </a>
-        </button>
-      </div>
+
+<body class="flex flex-col items-center justify-start">
+
+  <!-- Floating icons -->
+  <div class="p1">🔥</div>
+  <div class="p2">🚑</div>
+  <div class="p3">🌊</div>
+  <div class="p4">🚨</div>
+  <div class="p5">🏥</div>
+
+  <!-- Header -->
+  <header class="w-full py-10 text-center card mb-6">
+    <h1 class="text-3xl font-extrabold text-red-500 mb-4">HelpNet - Intelligent Disaster Response</h1>
+    <div class="flex justify-center gap-4">
+      <button class="btn-secondary rounded-full px-6 py-2 text-white font-medium">
+        <a href="news.html">Live Updates</a>
+      </button>
+      <button class="btn-primary rounded-full px-6 py-2 text-white font-medium">
+        <a href="alert.html">Emergency Alerts</a>
+      </button>
     </div>
   </header>
 
-  <main class="p-6 md:p-10">
-    <h2 class="text-gray-900 font-semibold text-lg mb-4">Latest Disaster Reports</h2>
-    <div class="bg-gray-100 rounded-xl p-6 max-w-3xl shadow-md">
-      <h3 class="font-semibold text-gray-800 text-base mb-2">Flood Warning Issued</h3>
-      <p class="text-gray-700 text-sm">Flood warnings for western coastal regions.</p>
+  <!-- Latest Disaster Reports -->
+  <main class="max-w-4xl w-full px-6 flex flex-col gap-4">
+    <h2 class="text-xl font-semibold text-red-500 mb-2">Latest Disaster Reports</h2>
+    <div class="card">
+      <h3 class="font-bold text-white text-base mb-1">Flood Warning Issued</h3>
+      <p class="text-gray-300 text-sm">Flood warnings for western coastal regions.</p>
+    </div>
+    <div class="card">
+      <h3 class="font-bold text-white text-base mb-1">Earthquake Alert</h3>
+      <p class="text-gray-300 text-sm">Seismic activity detected near northern region.</p>
     </div>
   </main>
 
-  <button
-    class="fixed bottom-6 right-6 bg-[#e04a39] text-white text-sm font-normal rounded-full px-6 py-2 shadow-lg hover:bg-[#c43b2a] transition"
-  >
+  <!-- Floating Location Button -->
+  <button class="fixed bottom-20 right-6 btn-primary text-white text-sm font-medium rounded-full px-6 py-2 shadow-lg hover:bg-[#c43b2a]">
     Track My Location
   </button>
-  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
-    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-home"></i>
-      <span class="text-xs">Home</span>
-    </a>
-    <a href="news.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-newspaper"></i>
-      <span class="text-xs">News</span>
-    </a>
-    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-map-marker-alt"></i>
-      <span class="text-xs">Alerts</span>
-    </a>
-    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-bell"></i>
-      <span class="text-xs">Chat</span>
-    </a>
-    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-phone-alt"></i>
-      <span class="text-xs">Contact</span>
-    </a>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#1f2937]/90 shadow-inner border-t flex justify-around items-center h-14 text-white">
+    <a href="homepage.html" class="flex flex-col items-center hover:text-red-500"><i class="fas fa-home"></i><span class="text-xs">Home</span></a>
+    <a href="news.html" class="flex flex-col items-center hover:text-red-500"><i class="fas fa-newspaper"></i><span class="text-xs">News</span></a>
+    <a href="app.html" class="flex flex-col items-center hover:text-red-500"><i class="fas fa-map-marker-alt"></i><span class="text-xs">Request</span></a>
+    <a href="contact.html" class="flex flex-col items-center hover:text-red-500"><i class="fas fa-phone-alt"></i><span class="text-xs">Contact</span></a>
   </nav>
+
 </body>
 </html>
