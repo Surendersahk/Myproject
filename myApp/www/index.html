@@ -11,45 +11,34 @@
     body {
       font-family: "Inter", sans-serif;
     }
+
+    .active {
+      color: #ef4444; /* Tailwind red-500 */
+    }
   </style>
 </head>
 
 <body class="bg-[#f7f8fa] min-h-screen flex flex-col">
   <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16" role="navigation" aria-label="Primary Navigation">
+  <header class="bg-white shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <div class="flex items-center justify-center min-h-screen">
-          <a href="#" class="flex items-center space-x-1">
-            <span class="text-gray-900 font-extrabold text-4xl select-none" style="font-family: Inter, sans-serif">
-              HELP
-            </span>
-            <span class="text-red-500 font-extrabold text-4xl select-none" style="font-family: Inter, sans-serif">
-              NET
-            </span>
-          </a>
-        </div>
-
-
-
-        <!-- Nav Links -->
-
+        <a href="homepage.html" class="flex items-center space-x-1">
+          <span class="text-gray-900 font-extrabold text-3xl select-none">HELP</span>
+          <span class="text-red-500 font-extrabold text-3xl select-none">NET</span>
+        </a>
 
         <!-- Auth Buttons -->
         <div class="flex items-center space-x-3">
-          <button type="button"
-            class="hidden sm:inline-block bg-gray-100 text-gray-700 text-sm font-medium rounded-full px-4 py-1.5 hover:bg-gray-200 transition"><a
-              href="login.html">
-              Sign in
-            </a>
-          </button>
-          <button type="button"
-            class="bg-red-500 text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-red-600 transition"><a
-              href="register.html">
-              Register
-            </a>
-          </button>
+          <a href="login.html"
+            class="hidden sm:inline-block bg-gray-100 text-gray-700 text-sm font-medium rounded-full px-4 py-1.5 hover:bg-gray-200 transition">
+            Sign in
+          </a>
+          <a href="register.html"
+            class="bg-red-500 text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-red-600 shadow-md transition">
+            Register
+          </a>
         </div>
       </div>
     </div>
@@ -57,58 +46,88 @@
 
   <!-- MAIN CONTENT -->
   <main class="max-w-4xl mx-auto p-6">
-  <h2 class="text-2xl font-bold mb-4 text-center">Latest Disaster Updates</h2>
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">🌍 Latest Disaster Updates</h2>
 
-  <!-- Carousel Container -->
-  <div class="relative w-full h-96 overflow-hidden rounded-xl shadow-lg">
-    <!-- Images -->
-    <div class="carousel flex transition-transform duration-700 ease-in-out">
-      <img src="image1.jpg" class="w-full flex-shrink-0 object-contain" alt="Flood">
-      <img src="image2.jpg" class="w-full flex-shrink-0 object-cover" alt="Earthquake">
-      <img src="image3.jpg" class="w-full flex-shrink-0 object-cover" alt="Fire">
+    <!-- Carousel Container -->
+    <div class="relative w-full h-80 md:h-96 overflow-hidden rounded-2xl shadow-xl">
+      <!-- Images -->
+      <div class="carousel flex transition-transform duration-700 ease-in-out">
+        <img src="image1.jpg" class="w-full flex-shrink-0 object-cover" alt="Flood">
+        <img src="image2.jpg" class="w-full flex-shrink-0 object-cover" alt="Earthquake">
+        <img src="image3.jpg" class="w-full flex-shrink-0 object-cover" alt="Fire">
+      </div>
+
+      <!-- Indicators -->
+      <div class="absolute bottom-3 left-0 right-0 flex justify-center space-x-2">
+        <span class="dot w-3 h-3 rounded-full bg-white shadow"></span>
+        <span class="dot w-3 h-3 rounded-full bg-gray-400"></span>
+        <span class="dot w-3 h-3 rounded-full bg-gray-400"></span>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<script>
-  const carousel = document.querySelector('.carousel');
-  const slides = document.querySelectorAll('.carousel img');
-  let index = 0;
+  <script>
+    const carousel = document.querySelector('.carousel');
+    const slides = document.querySelectorAll('.carousel img');
+    const dots = document.querySelectorAll('.dot');
+    let index = 0;
 
-  function showNextSlide() {
-    index = (index + 1) % slides.length;
-    carousel.style.transform = `translateX(-${index * 100}%)`;
-  }
+    function showSlide(i) {
+      index = i;
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("bg-white", idx === index);
+        dot.classList.toggle("bg-gray-400", idx !== index);
+      });
+    }
 
-  // Auto-slide every 3 seconds
-  setInterval(showNextSlide, 3000);
-</script>
+    function showNextSlide() {
+      index = (index + 1) % slides.length;
+      showSlide(index);
+    }
 
+    setInterval(showNextSlide, 3000);
+  </script>
 
   <!-- BOTTOM NAVIGATION -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
-    <a href="homepage.html">
+  <nav
+    class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t flex justify-around items-center h-14 text-gray-600">
+    <a href="homepage.html" id="homeLink" class="flex flex-col items-center">
       <i class="fas fa-home"></i>
       <span class="text-xs">Home</span>
     </a>
-    <a href="news.html">
+    <a href="news.html" id="newsLink" class="flex flex-col items-center">
       <i class="fas fa-newspaper"></i>
       <span class="text-xs">News</span>
     </a>
-    <a href="app.html">
+    <a href="app.html" id="mapLink" class="flex flex-col items-center">
       <i class="fas fa-map-marker-alt"></i>
       <span class="text-xs">Map</span>
     </a>
-    <a href="alert.html">
+    <a href="alert.html" id="alertsLink" class="flex flex-col items-center">
       <i class="fas fa-bell"></i>
       <span class="text-xs">Alerts</span>
     </a>
-    <a href="contact.html">
+    <a href="contact.html" id="contactLink" class="flex flex-col items-center">
       <i class="fas fa-phone-alt"></i>
       <span class="text-xs">Contact</span>
     </a>
   </nav>
 
+  <script>
+    // highlight current nav item
+    const currentPage = window.location.pathname.split("/").pop();
+    const pageMap = {
+      "homepage.html": "homeLink",
+      "news.html": "newsLink",
+      "app.html": "mapLink",
+      "alert.html": "alertsLink",
+      "contact.html": "contactLink"
+    };
+    if (pageMap[currentPage]) {
+      document.getElementById(pageMap[currentPage]).classList.add("active");
+    }
+  </script>
 </body>
 
 </html>
