@@ -124,7 +124,7 @@
 
     .news-disaster-type {
       background: #fecaca;
-      color: #991b1b;
+      color: #a45757;
       padding: 4px 8px;
       border-radius: 4px;
       font-size: 12px;
@@ -168,7 +168,7 @@
       width: 24px;
       height: 24px;
       border: 3px solid #f3f4f6;
-      border-top: 3px solid #ef4444;
+      border-top: 3px solid #ab8181;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -217,7 +217,7 @@
 
     .status-offline {
       background: #fee2e2;
-      color: #991b1b;
+      color: #d0c2c2;
     }
 
     .pulse {
@@ -245,15 +245,49 @@
       color: #6b7280;
       text-align: center;
       margin-bottom: 20px;
-    }
+    } 
+    .animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(270deg, #f44336, #ff9800, #2196f3, #4caf50);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-heading {
+  background: linear-gradient(90deg, #f44336, #ff9800, #2196f3, #4caf50);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 5s ease infinite;
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
   </style>
 </head>
 
 <body class="bg-gradient-to-b from-[#f9faf9] to-[#d1d5db] min-h-screen">
-  <!-- Header -->
+  <!-- Header --><div class="animated-bg"></div>
+
   <header class="bg-gradient-to-r from-[#f4434b] via-[#9b2f4b] to-[#2f3a4b] py-6 text-center">
     <div class="max-w-6xl mx-auto px-4">
-      <h1 class="text-white font-extrabold text-3xl md:text-4xl mb-3">Real-Time Disaster News</h1>
+      <h1 class="animated-heading font-extrabold text-3xl md:text-4xl mb-3">Real-Time Disaster News</h1>
+
       <p class="text-white text-sm md:text-base max-w-2xl mx-auto">
         Live emergency news and disaster updates from multiple sources worldwide. Stay informed and prepared.
       </p>
