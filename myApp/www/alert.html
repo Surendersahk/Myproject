@@ -5,8 +5,12 @@
   <title>
    Help Net - Emergency Alert System
   </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+  .active {
+    color: #ef4444; /* Tailwind red-500 */
+  }
+</style>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
   <style>
@@ -26,19 +30,7 @@
      .AI
     </span>
    </div>
-   <nav class="hidden md:flex space-x-8 font-semibold text-[#374151] text-base">
-    <a href="homepage.html">
-     Home
-    </a>
-    <a href="news.html">
-     News
-    </a>
-    <a class="text-[#f43f5e] border-b-2 border-[#f43f5e] pb-1" href="#">
-     Alerts
-    </a>
-    <a href="contact.html"> contact
-    </a>
-   </nav>
+   
    <div class="flex items-center space-x-4">
     <button class="text-[#374151] bg-[#e5e7eb] px-4 py-2 rounded-full text-sm font-medium hover:bg-[#d1d5db]">
      Sign in
@@ -115,5 +107,27 @@
   <button aria-label="Track My Location" class="fixed bottom-6 right-6 bg-[#f43f5e] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-[#e11d48] z-50">
    Track My Location
   </button>
+  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
+    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-home"></i>
+      <span class="text-xs">Home</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-newspaper"></i>
+      <span class="text-xs">News</span>
+    </a>
+    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-map-marker-alt"></i>
+      <span class="text-xs">Map</span>
+    </a>
+    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-bell"></i>
+      <span class="text-xs">Alerts</span>
+    </a>
+    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-phone-alt"></i>
+      <span class="text-xs">Contact</span>
+    </a>
+  </nav>
  </body>
 </html>

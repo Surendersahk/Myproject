@@ -3,8 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Rescue Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBKf_IIUhddc4nkNZd36FmttU0FGMMj1g"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link rel="stylesheet" href="news-api/styles.css" />
+  <style>
+  .active {
+    color: #ef4444; /* Tailwind red-500 */
+  }
+</style>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     #map { height: 500px; width: 100%; margin-top: 20px; }
@@ -104,5 +123,27 @@
     // Load map when page is ready
     window.onload = initMap;
   </script>
+  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
+    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-home"></i>
+      <span class="text-xs">Home</span>
+    </a>
+    <a href="news.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-newspaper"></i>
+      <span class="text-xs">News</span>
+    </a>
+    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-map-marker-alt"></i>
+      <span class="text-xs">Map</span>
+    </a>
+    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-bell"></i>
+      <span class="text-xs">Alerts</span>
+    </a>
+    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
+      <i class="fas fa-phone-alt"></i>
+      <span class="text-xs">Contact</span>
+    </a>
+  </nav>
 </body>
 </html>

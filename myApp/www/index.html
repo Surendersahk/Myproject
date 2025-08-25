@@ -1,70 +1,53 @@
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HELPNET</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
-  />
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" 
-    rel="stylesheet" 
-  />
-  <style> body { font-family: "Inter", sans-serif; } </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
 </head>
+
 <body class="bg-[#f7f8fa] min-h-screen flex flex-col">
   <!-- Header -->
   <header class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-        class="flex justify-between items-center h-16"
-        role="navigation"
-        aria-label="Primary Navigation"
-      >
+      <div class="flex justify-between items-center h-16" role="navigation" aria-label="Primary Navigation">
         <!-- Logo -->
-        <a href="#" class="flex items-center space-x-1">
-          <span
-            class="text-gray-900 font-extrabold text-xl select-none"
-            style="font-family: Inter, sans-serif"
-            >HELP</span
-          >
-          <span
-            class="text-red-500 font-extrabold text-xl select-none"
-            style="font-family: Inter, sans-serif"
-            >NET</span
-          >
-        </a>
+        <div class="flex items-center justify-center min-h-screen">
+          <a href="#" class="flex items-center space-x-1">
+            <span class="text-gray-900 font-extrabold text-4xl select-none" style="font-family: Inter, sans-serif">
+              HELP
+            </span>
+            <span class="text-red-500 font-extrabold text-4xl select-none" style="font-family: Inter, sans-serif">
+              NET
+            </span>
+          </a>
+        </div>
+
+
 
         <!-- Nav Links -->
-        <nav class="hidden md:flex space-x-6 text-gray-700 text-sm font-medium">
-          <a
-            href="#"
-            class="text-red-500 border-b-2 border-red-500 pb-1"
-            aria-current="page"
-            >Home</a
-          >
-          <a href="#" class="hover:text-gray-900">News</a>
-          <a href="#" class="hover:text-gray-900">Map</a>
-          <a href="#" class="hover:text-gray-900">Alerts</a>
-          <a href="#" class="hover:text-gray-900">Contact</a>
-        </nav>
+
 
         <!-- Auth Buttons -->
         <div class="flex items-center space-x-3">
-          <button
-            type="button"
-            class="hidden sm:inline-block bg-gray-100 text-gray-700 text-sm font-medium rounded-full px-4 py-1.5 hover:bg-gray-200 transition"
-          ><a href="login.html">
-            Sign in
+          <button type="button"
+            class="hidden sm:inline-block bg-gray-100 text-gray-700 text-sm font-medium rounded-full px-4 py-1.5 hover:bg-gray-200 transition"><a
+              href="login.html">
+              Sign in
             </a>
           </button>
-          <button
-            type="button"
-            class="bg-red-500 text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-red-600 transition"
-          ><a href="register.html">
-            Register
+          <button type="button"
+            class="bg-red-500 text-white text-sm font-medium rounded-full px-5 py-2 hover:bg-red-600 transition"><a
+              href="register.html">
+              Register
             </a>
           </button>
         </div>
@@ -73,35 +56,34 @@
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="flex-grow mt-16 mb-16 px-4 space-y-4">
-    <!-- News Card -->
-    <article class="bg-white rounded-lg shadow p-4">
-      <h2 class="text-gray-900 font-semibold text-base">Emergency Services in Chennai</h2>
-      <p class="text-gray-700 text-sm">NDRF teams deployed.</p>
-      <time class="text-gray-400 text-xs">4/6/2025, 8:55:37 AM</time>
-    </article>
+  <main class="max-w-4xl mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4 text-center">Latest Disaster Updates</h2>
 
-    <article
-      class="bg-white rounded-lg shadow-sm p-6"
-      aria-label="Delhi Schools Closed news item"
-    >
-      <h2 class="text-gray-900 font-semibold text-base leading-6 mb-1">
-        Delhi Schools Closed
-      </h2>
-      <p class="text-gray-700 text-sm mb-3">Closure due to air quality.</p>
-      <time
-        class="text-gray-400 text-xs font-normal"
-        datetime="2025-04-06T05:55:37"
-        >4/6/2025, 5:55:37 AM</time
-      >
-    </article>
+  <!-- Carousel Container -->
+  <div class="relative w-full h-96 overflow-hidden rounded-xl shadow-lg">
+    <!-- Images -->
+    <div class="carousel flex transition-transform duration-700 ease-in-out">
+      <img src="image1.jpg" class="w-full flex-shrink-0 object-contain" alt="Flood">
+      <img src="image2.jpg" class="w-full flex-shrink-0 object-cover" alt="Earthquake">
+      <img src="image3.jpg" class="w-full flex-shrink-0 object-cover" alt="Fire">
+    </div>
+  </div>
+</main>
 
-    <article class="bg-white rounded-lg shadow p-4">
-      <h2 class="text-gray-900 font-semibold text-base">Relief Camps in Maharashtra</h2>
-      <p class="text-gray-700 text-sm">Camps established for flood victims.</p>
-      <time class="text-gray-400 text-xs">4/6/2025, 1:55:37 AM</time>
-    </article>
-  </main>
+<script>
+  const carousel = document.querySelector('.carousel');
+  const slides = document.querySelectorAll('.carousel img');
+  let index = 0;
+
+  function showNextSlide() {
+    index = (index + 1) % slides.length;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  // Auto-slide every 3 seconds
+  setInterval(showNextSlide, 3000);
+</script>
+
 
   <!-- BOTTOM NAVIGATION -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
@@ -128,4 +110,5 @@
   </nav>
 
 </body>
+
 </html>
