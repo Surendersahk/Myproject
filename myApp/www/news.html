@@ -1,308 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Disaster News & Updates - Rescue AI</title>
+  <title>Real-Time Disaster News - Rescue AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-  .active {
-    color: #ef4444; /* Tailwind red-500 */
-  }
-</style>
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
-  <link rel="stylesheet" href="news-api/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
     body {
       font-family: 'Inter', sans-serif;
     }
+
+    .news-filters {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      color: #374151;
+      margin-right: 8px;
+    }
+
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+      min-width: 150px;
+    }
+
+    .filter-button {
+      padding: 8px 16px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .filter-button:hover {
+      background: #dc2626;
+    }
+
+    .filter-button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .news-container {
+      display: grid;
+      gap: 20px;
+    }
+
+    .news-article {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid #ef4444;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .news-article:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .news-summary {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .news-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .news-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .news-source {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .news-disaster-type {
+      background: #fecaca;
+      color: #991b1b;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .news-country {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .news-region {
+      background: #e0f2fe;
+      color: #0277bd;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .news-date {
+      color: #6b7280;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .news-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+    }
+
+    .news-loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #ef4444;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .news-error,
+    .news-empty {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .news-error-icon,
+    .news-empty-icon {
+      font-size: 48px;
+      color: #ef4444;
+      margin-bottom: 16px;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .status-live {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-offline {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .5;
+      }
+    }
+
+    .last-updated {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
+
 <body class="bg-gradient-to-b from-[#f9faf9] to-[#d1d5db] min-h-screen">
   <!-- Header -->
   <header class="bg-gradient-to-r from-[#f4434b] via-[#9b2f4b] to-[#2f3a4b] py-6 text-center">
     <div class="max-w-6xl mx-auto px-4">
-      <h1 class="text-white font-extrabold text-3xl md:text-4xl mb-3">Disaster News &amp; Updates</h1>
+      <h1 class="text-white font-extrabold text-3xl md:text-4xl mb-3">Real-Time Disaster News</h1>
       <p class="text-white text-sm md:text-base max-w-2xl mx-auto">
-        Real-time emergency news and disaster updates from ReliefWeb API. Stay informed and prepared.
+        Live emergency news and disaster updates from multiple sources worldwide. Stay informed and prepared.
       </p>
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <!-- Filter Controls -->
+    <div id="status-indicator" class="status-indicator status-live">
+      <div class="pulse"></div>
+      <span>Live Feed Active</span>
+    </div>
+
+    <div id="last-updated" class="last-updated">Last updated: Never</div>
+
+    <!-- Filters -->
     <div class="news-filters mb-8">
       <div class="filter-group">
         <label class="filter-label">Filter by:</label>
         <select id="disasterTypeFilter" class="filter-select">
           <option value="">All Disaster Types</option>
-          <option value="Flood">Flood</option>
-          <option value="Earthquake">Earthquake</option>
-          <option value="Cyclone">Cyclone</option>
-          <option value="Wildfire">Wildfire</option>
-          <option value="Drought">Drought</option>
+          <option value="flood">Flood</option>
+          <option value="earthquake">Earthquake</option>
+          <option value="cyclone">Cyclone/Hurricane</option>
+          <option value="wildfire">Wildfire</option>
+          <option value="drought">Drought</option>
+          <option value="volcano">Volcanic Activity</option>
+          <option value="emergency">General Emergency</option>
         </select>
         <select id="countryFilter" class="filter-select">
           <option value="">All Countries</option>
-          <option value="India">India</option>
-          <option value="United States">United States</option>
-          <option value="Japan">Japan</option>
-          <option value="Australia">Australia</option>
-          <option value="Philippines">Philippines</option>
+          <option value="india">India</option>
+          <option value="united states">United States</option>
+          <option value="japan">Japan</option>
+          <option value="australia">Australia</option>
+          <option value="philippines">Philippines</option>
+          <option value="indonesia">Indonesia</option>
+          <option value="china">China</option>
+          <option value="brazil">Brazil</option>
         </select>
         <button id="refreshButton" class="filter-button">
           <i class="fas fa-sync-alt mr-2"></i>Refresh News
         </button>
+        <button id="autoRefreshToggle" class="filter-button">
+          <i class="fas fa-play mr-2"></i>Auto-Refresh: OFF
+        </button>
       </div>
     </div>
 
-    <!-- News Container -->
     <div id="news-container" class="news-container">
-      <!-- News articles will be loaded here dynamically -->
       <div class="news-loading">
         <div class="news-loading-spinner"></div>
         <span class="ml-3 text-gray-600">Loading latest disaster news...</span>
       </div>
     </div>
 
-    <!-- Error State (hidden by default) -->
     <div id="news-error" class="news-error" style="display: none;">
       <div class="news-error-icon">
         <i class="fas fa-exclamation-triangle"></i>
       </div>
       <h3 class="text-lg font-semibold mb-2">Unable to Load News</h3>
-      <p class="text-sm">Please check your internet connection and try again.</p>
+      <p class="text-sm mb-4">Failed to fetch real-time disaster news.</p>
       <button onclick="loadNews()" class="filter-button mt-4">
         <i class="fas fa-redo mr-2"></i>Retry
       </button>
     </div>
 
-    <!-- Empty State (hidden by default) -->
     <div id="news-empty" class="news-empty" style="display: none;">
       <div class="news-empty-icon">
         <i class="fas fa-newspaper"></i>
       </div>
       <h3 class="text-lg font-semibold mb-2">No News Available</h3>
-      <p class="text-sm">There are no current disaster reports available.</p>
+      <p class="text-sm">No disaster reports match your current filters.</p>
+      <button onclick="FilterManager.clearFilters()" class="filter-button mt-4">
+        <i class="fas fa-filter mr-2"></i>Clear Filters
+      </button>
     </div>
   </main>
 
-  <!-- Footer Navigation -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
-    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-home"></i>
-      <span class="text-xs">Home</span>
-    </a>
-    <a href="news.html" class="flex flex-col items-center text-red-500">
-      <i class="fas fa-newspaper"></i>
-      <span class="text-xs">News</span>
-    </a>
-    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-map-marker-alt"></i>
-      <span class="text-xs">Map</span>
-    </a>
-    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-bell"></i>
-      <span class="text-xs">Alerts</span>
-    </a>
-    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-phone-alt"></i>
-      <span class="text-xs">Contact</span>
-    </a>
-  </nav>
-
-  <!-- JavaScript Files -->
-  <script src="news-api/reliefWebAPI.js"></script>
-  <script src="news-api/newsData.js"></script>
-  
   <script>
-    // Global variables
-    let currentNews = [];
-    let isLoading = false;
+    const AppState = {
+      allNews: [],
+      filteredNews: [],
+      isLoading: false,
+      autoRefresh: false,
+      autoRefreshInterval: null
+    };
 
-    // Load news on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      loadNews();
-      setupEventListeners();
-    });
+    class UIManager {
+      static showLoading() {
+        const container = document.getElementById('news-container');
+        container.style.display = 'block';
+        container.innerHTML = `<div class="news-loading"><div class="news-loading-spinner"></div><span class="ml-3 text-gray-600">Fetching latest disaster news...</span></div>`;
+        UIManager.hideError();
+        UIManager.hideEmpty();
+      }
+      static showError() { document.getElementById('news-container').style.display = 'none'; document.getElementById('news-error').style.display = 'block'; UIManager.hideEmpty(); }
+      static hideError() { document.getElementById('news-error').style.display = 'none'; }
+      static showEmpty() { document.getElementById('news-container').innerHTML = ''; document.getElementById('news-empty').style.display = 'block'; }
+      static hideEmpty() { document.getElementById('news-empty').style.display = 'none'; }
+      static displayNews(newsArray) {
+        const container = document.getElementById('news-container');
+        if (!newsArray || newsArray.length === 0) { this.showEmpty(); return; }
+        this.hideEmpty();
+        container.style.display = 'block';
+        container.innerHTML = newsArray.map(news => `
+          <article class="news-article" onclick="window.open('${news.url}', '_blank')">
+            <h2 class="news-title">${news.title}</h2>
+            <p class="news-summary">${news.summary}</p>
+            <div class="news-meta">
+              <div class="news-tags">
+                <span class="news-source">${news.source}</span>
+                <span class="news-disaster-type">${news.disasterType}</span>
+                <span class="news-country">${news.country}</span>
+                <span class="news-region">${news.region}</span>
+              </div>
+              <span class="news-date">${UIManager.formatDate(news.date)}</span>
+            </div>
+          </article>
+        `).join('');
+      }
+      static updateRefreshButton(isLoading) {
+        const button = document.getElementById('refreshButton');
+        const icon = button.querySelector('i');
+        if (isLoading) { button.disabled = true; icon.className = 'fas fa-spinner fa-spin mr-2'; } 
+        else { button.disabled = false; icon.className = 'fas fa-sync-alt mr-2'; }
+      }
+      static updateAutoRefreshButton(isActive) {
+        const button = document.getElementById('autoRefreshToggle');
+        button.innerHTML = isActive ? '<i class="fas fa-pause mr-2"></i>Auto-Refresh: ON' : '<i class="fas fa-play mr-2"></i>Auto-Refresh: OFF';
+      }
+      static updateStatus(isOnline, lastUpdated) {
+        const indicator = document.getElementById('status-indicator');
+        const updatedDiv = document.getElementById('last-updated');
+        indicator.className = isOnline ? 'status-indicator status-live' : 'status-indicator status-offline';
+        indicator.innerHTML = isOnline ? '<div class="pulse"></div><span>Live Feed Active</span>' : '<i class="fas fa-exclamation-circle"></i><span>Offline Mode</span>';
+        updatedDiv.textContent = `Last updated: ${lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}`;
+      }
+      static formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diff = Math.floor((now - date) / 60000);
+        if (diff < 60) return `${diff} minutes ago`; 
+        const hours = Math.floor(diff / 60); 
+        if (hours < 24) return `${hours} hours ago`; 
+        return date.toLocaleString();
+      }
+    }
 
-    // Setup event listeners
-    function setupEventListeners() {
-      document.getElementById('refreshButton').addEventListener('click', loadNews);
-      document.getElementById('disasterTypeFilter').addEventListener('change', filterNews);
-      document.getElementById('countryFilter').addEventListener('change', filterNews);
+    class FilterManager {
+      static applyFilters() {
+        const disaster = document.getElementById('disasterTypeFilter').value.toLowerCase();
+        const country = document.getElementById('countryFilter').value.toLowerCase();
+        let filtered = [...AppState.allNews];
+        if (disaster) filtered = filtered.filter(n => n.disasterType.toLowerCase().includes(disaster));
+        if (country) filtered = filtered.filter(n => n.country.toLowerCase().includes(country));
+        AppState.filteredNews = filtered;
+        UIManager.displayNews(filtered);
+      }
+      static clearFilters() {
+        document.getElementById('disasterTypeFilter').value = '';
+        document.getElementById('countryFilter').value = '';
+        this.applyFilters();
+      }
+    }
+
+    class DisasterNewsAPI {
+      static RELIEFWEB_URL = 'https://api.reliefweb.int/v1/reports?appname=disaster-news-app&profile=list&preset=latest&limit=50&fields[include][]=id&fields[include][]=title&fields[include][]=body-html&fields[include][]=date&fields[include][]=country&fields[include][]=disaster_type&fields[include][]=source';
+
+      static async fetchAllNews() {
+        try {
+          const response = await fetch(this.RELIEFWEB_URL);
+          if (!response.ok) throw new Error('ReliefWeb API failed: ' + response.status);
+          const data = await response.json();
+          return data.data.map(item => {
+            const fields = item.fields;
+            return {
+              id: fields.id || Math.random().toString(36).substr(2, 9),
+              title: fields.title || 'Disaster Report',
+              summary: fields['body-html'] ? fields['body-html'].replace(/<[^>]*>/g, '').substring(0, 200) + '...' : '',
+              date: fields.date?.created || new Date().toISOString(),
+              source: fields.source?.[0]?.name || 'ReliefWeb',
+              disasterType: fields.disaster_type?.[0]?.name || 'Emergency',
+              country: fields.country?.[0]?.name || 'Various',
+              region: fields.country?.[0]?.region || 'Multiple Regions',
+              url: fields.url || '#'
+            };
+          });
+        } catch (error) {
+          console.error('Error fetching news:', error);
+          return DisasterNewsAPI.getMockData();
+        }
+      }
+
+      static getMockData() {
+        return [
+          {
+            id: '1',
+            title: 'Flood in India',
+            summary: 'Heavy rains have caused severe flooding in several districts of India...',
+            date: new Date().toISOString(),
+            source: 'MockSource',
+            disasterType: 'Flood',
+            country: 'India',
+            region: 'Northern India',
+            url: '#'
+          },
+          {
+            id: '2',
+            title: 'Wildfire in Australia',
+            summary: 'A major wildfire is spreading rapidly in the eastern regions of Australia...',
+            date: new Date().toISOString(),
+            source: 'MockSource',
+            disasterType: 'Wildfire',
+            country: 'Australia',
+            region: 'Eastern Australia',
+            url: '#'
+          }
+        ];
+      }
     }
 
     async function loadNews() {
-      if (isLoading) return;
-      
-      isLoading = true;
-      showLoadingState();
-      hideErrorState();
-      hideEmptyState();
-
       try {
-        // Try to fetch from ReliefWeb API first
-        const news = await window.ReliefWebAPI.getLatestEmergencyNews();
-        
-        if (news && news.length > 0) {
-          currentNews = news;
-          displayNews(currentNews);
-        } else {
-          // Fallback to mock data if API returns empty
-          const mockData = await window.NewsAPI.getNewsData();
-          currentNews = mockData.data.map(item => ({
-            id: Math.random().toString(36).substr(2, 9),
-            title: item.fields.title,
-            summary: item.fields.summary,
-            date: item.fields.date,
-            source: 'Rescue AI',
-            disasterType: 'Emergency',
-            country: 'Various'
-          }));
-          displayNews(currentNews);
-        }
+        AppState.isLoading = true;
+        UIManager.showLoading();
+        UIManager.updateRefreshButton(true);
+
+        const newsData = await DisasterNewsAPI.fetchAllNews();
+        AppState.allNews = newsData;
+        FilterManager.applyFilters();
+        UIManager.updateStatus(true, new Date());
       } catch (error) {
         console.error('Error loading news:', error);
-        // Fallback to mock data on API error
-        try {
-          const mockData = await window.NewsAPI.getNewsData();
-          currentNews = mockData.data.map(item => ({
-            id: Math.random().toString(36).substr(2, 9),
-            title: item.fields.title,
-            summary: item.fields.summary,
-            date: item.fields.date,
-            source: 'Rescue AI',
-            disasterType: 'Emergency',
-            country: 'Various'
-          }));
-          displayNews(currentNews);
-        } catch (mockError) {
-          console.error('Error loading mock data:', mockError);
-          showErrorState();
-        }
+        UIManager.showError();
+        UIManager.updateStatus(false, new Date());
       } finally {
-        isLoading = false;
+        AppState.isLoading = false;
+        UIManager.updateRefreshButton(false);
       }
     }
 
-    // Filter news based on selections
-    function filterNews() {
-      const disasterType = document.getElementById('disasterTypeFilter').value;
-      const country = document.getElementById('countryFilter').value;
-
-      let filteredNews = currentNews;
-
-      if (disasterType) {
-        filteredNews = filteredNews.filter(news => 
-          news.disasterType.toLowerCase().includes(disasterType.toLowerCase())
-        );
+    document.getElementById('refreshButton').addEventListener('click', loadNews);
+    document.getElementById('autoRefreshToggle').addEventListener('click', () => {
+      AppState.autoRefresh = !AppState.autoRefresh;
+      UIManager.updateAutoRefreshButton(AppState.autoRefresh);
+      if (AppState.autoRefresh) {
+        AppState.autoRefreshInterval = setInterval(loadNews, 5 * 60 * 1000);
+      } else {
+        clearInterval(AppState.autoRefreshInterval);
       }
+    });
+    document.getElementById('disasterTypeFilter').addEventListener('change', () => FilterManager.applyFilters());
+    document.getElementById('countryFilter').addEventListener('change', () => FilterManager.applyFilters());
 
-      if (country) {
-        filteredNews = filteredNews.filter(news => 
-          news.country.toLowerCase().includes(country.toLowerCase())
-        );
-      }
-
-      displayNews(filteredNews);
-    }
-
-    // Display news articles
-    function displayNews(newsArray) {
-      const container = document.getElementById('news-container');
-      
-      if (!newsArray || newsArray.length === 0) {
-        showEmptyState();
-        return;
-      }
-
-      container.innerHTML = newsArray.map(news => `
-        <article class="news-article">
-          <h2 class="news-title">${news.title}</h2>
-          <p class="news-summary">${news.summary}</p>
-          <div class="news-meta">
-            <div class="flex items-center gap-3">
-              <span class="news-source">${news.source}</span>
-              ${news.disasterType ? `<span class="news-disaster-type">${news.disasterType}</span>` : ''}
-              ${news.country ? `<span class="news-country">${news.country}</span>` : ''}
-            </div>
-            <span class="news-date">${formatDate(news.date)}</span>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    // Utility functions for UI states
-    function showLoadingState() {
-      document.getElementById('news-container').innerHTML = `
-        <div class="news-loading">
-          <div class="news-loading-spinner"></div>
-          <span class="ml-3 text-gray-600">Loading latest disaster news...</span>
-        </div>
-      `;
-    }
-
-    function showErrorState() {
-      document.getElementById('news-container').style.display = 'none';
-      document.getElementById('news-error').style.display = 'block';
-    }
-
-    function hideErrorState() {
-      document.getElementById('news-error').style.display = 'none';
-    }
-
-    function showEmptyState() {
-      document.getElementById('news-container').innerHTML = '';
-      document.getElementById('news-empty').style.display = 'block';
-    }
-
-    function hideEmptyState() {
-      document.getElementById('news-empty').style.display = 'none';
-    }
-
-    // Date formatting utility
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-
-    // Expose to global scope for retry button
-    window.loadNews = loadNews;
+    document.addEventListener('DOMContentLoaded', loadNews);
   </script>
-  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t flex justify-around items-center h-14">
-    <a href="homepage.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-home"></i>
-      <span class="text-xs">Home</span>
-    </a>
-    <a href="news.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-newspaper"></i>
-      <span class="text-xs">News</span>
-    </a>
-    <a href="app.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-map-marker-alt"></i>
-      <span class="text-xs">Map</span>
-    </a>
-    <a href="alert.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-bell"></i>
-      <span class="text-xs">Alerts</span>
-    </a>
-    <a href="contact.html" class="flex flex-col items-center text-gray-600 hover:text-gray-900">
-      <i class="fas fa-phone-alt"></i>
-      <span class="text-xs">Contact</span>
-    </a>
-  </nav>
 </body>
+
 </html>
